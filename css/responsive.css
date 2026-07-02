@@ -1,0 +1,309 @@
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+
+/* ==========================================================
+   TABLETTE
+   ========================================================== */
+
+@media (max-width: 992px) {
+
+    /* ---------- Header ---------- */
+
+    .header-inner {
+
+        padding: 0 16px;
+
+    }
+
+    .nav-center {
+
+        gap: 4px;
+
+    }
+
+    .nav-center a {
+
+        padding: 8px 10px;
+
+        font-size: .8rem;
+
+    }
+
+
+    /* ---------- Hero ---------- */
+
+    .hero-content {
+
+        padding: 0 1.5rem;
+
+        padding-top: var(--nav-height);
+
+    }
+
+    .hero-title {
+
+        font-size: clamp(2.2rem, 6vw, 3.5rem);
+
+    }
+
+    .hero-subtitle {
+
+        font-size: 1rem;
+
+    }
+
+
+    /* ---------- Cartes ---------- */
+
+    .grid3 {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+    .card-descriptions {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+
+    /* ---------- Project Banner ---------- */
+
+    .hero-project-banner__media {
+
+        height: 280px;
+
+    }
+
+    .hero-project-banner__label {
+
+        width: 380px;
+
+        height: 150px;
+
+        bottom: -35px;
+
+    }
+
+    .hero-project-banner__label h1 {
+
+        font-size: 2rem;
+
+    }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media (max-width: 768px) {
+
+    /* ---------- Header ---------- */
+
+    .header-inner {
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        height: auto;
+
+        padding: 20px;
+
+    }
+
+    .nav-left {
+
+        margin-bottom: 15px;
+
+    }
+
+    .nav-logo img {
+
+        height: 60px;
+
+    }
+
+    .nav-center {
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+    }
+
+    .nav-center a {
+
+        padding: 8px;
+
+    }
+
+
+    /* ---------- Hero ---------- */
+
+    .hero-section {
+
+        min-height: 500px;
+
+    }
+
+    .hero-content {
+
+        padding: 0 24px;
+
+    }
+
+    .hero-text {
+
+        max-width: 100%;
+
+    }
+
+    .hero-title {
+
+        font-size: 2.4rem;
+
+    }
+
+    .hero-subtitle {
+
+        font-size: .95rem;
+
+    }
+
+
+    /* ---------- Image ---------- */
+
+    .hero-image {
+
+        margin: 24px 16px;
+
+    }
+
+
+    /* ---------- Texte ---------- */
+
+    .text-spascia {
+
+        padding: 32px 20px;
+
+    }
+
+
+    /* ---------- Cartes ---------- */
+
+    .grid3 {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .card-descriptions {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    /* ---------- Project Banner ---------- */
+
+    .hero-project-banner__media {
+
+        height: 180px;
+
+    }
+
+    .hero-project-banner__label {
+
+        width: 280px;
+
+        height: 90px;
+
+        bottom: -15px;
+
+        padding: 1rem;
+
+    }
+
+    .hero-project-banner__label h1 {
+
+        font-size: 1.4rem;
+
+    }
+
+    .hero-project-banner__caption {
+
+        display: none;
+
+    }
+
+
+    /* ---------- Tableau ---------- */
+
+    .data-table-section {
+
+        padding: 0 16px 40px;
+
+    }
+
+    .data-table-meta {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+}
+
+
+/* ==========================================================
+   PETITS SMARTPHONES
+   ========================================================== */
+
+@media (max-width: 480px) {
+
+    .hero-title {
+
+        font-size: 2rem;
+
+    }
+
+    .hero-eyebrow {
+
+        font-size: .75rem;
+
+    }
+
+    .hero-subtitle {
+
+        font-size: .9rem;
+
+    }
+
+    .btn-discover {
+
+        width: 100%;
+
+        justify-content: center;
+
+    }
+
+    .text-spascia {
+
+        padding: 24px 16px;
+
+    }
+
+    .article-header h1 {
+
+        font-size: 2rem;
+
+    }
+
+}

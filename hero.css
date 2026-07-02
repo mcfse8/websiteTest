@@ -1,0 +1,376 @@
+/* ==========================================================
+   HERO SECTION
+   ========================================================== */
+
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+
+/* ==========================================================
+   BACKGROUND FALLBACK
+   ========================================================== */
+
+.hero-video-fallback {
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        135deg,
+        #051a2e 0%,
+        #0c3a5a 25%,
+        #0C80A1 60%,
+        #0a5f78 100%
+    );
+
+    background-size: 400% 400%;
+
+    animation: gradientShift 12s ease infinite;
+
+    z-index: 0;
+}
+
+@keyframes gradientShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+}
+
+
+/* ==========================================================
+   STARS
+   ========================================================== */
+
+.hero-stars {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background-image:
+        radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 60%, rgba(255,255,255,.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 55% 35%, rgba(255,255,255,.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 70%, rgba(255,255,255,.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 15%, rgba(255,255,255,.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 80%, rgba(255,255,255,.3) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 65% 90%, rgba(255,255,255,.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 45%, rgba(255,255,255,.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 40%, rgba(255,255,255,.3) 0%, transparent 100%),
+        radial-gradient(2px 2px at 45% 10%, rgba(255,255,255,.5) 0%, transparent 100%);
+
+    animation: twinkle 6s ease-in-out infinite alternate;
+
+}
+
+@keyframes twinkle {
+
+    from {
+        opacity: .6;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+/* ==========================================================
+   VIDEO
+   ========================================================== */
+
+.hero-video-bg {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: 0;
+
+}
+
+
+/* ==========================================================
+   OVERLAY
+   ========================================================== */
+
+.hero-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    background: linear-gradient(
+        to right,
+        rgba(5,26,46,.78) 0%,
+        rgba(5,26,46,.55) 55%,
+        rgba(5,26,46,.20) 100%
+    );
+
+}
+
+
+/* ==========================================================
+   CONTENT
+   ========================================================== */
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 3;
+
+    width: 100%;
+
+    max-width: var(--max-width);
+
+    margin: 0 auto;
+
+    padding: 0 2rem;
+
+    padding-top: var(--nav-height);
+
+}
+
+.hero-text {
+
+    max-width: 560px;
+
+}
+
+
+/* ==========================================================
+   ANIMATIONS
+   ========================================================== */
+
+.hero-eyebrow,
+.hero-title,
+.hero-subtitle,
+.hero-cta {
+
+    opacity: 0;
+
+    transform: translateY(20px);
+
+}
+
+
+/* ==========================================================
+   EYEBROW
+   ========================================================== */
+
+.hero-eyebrow {
+
+    margin-bottom: 1rem;
+
+    color: rgba(255,255,255,.65);
+
+    text-transform: uppercase;
+
+    letter-spacing: .2em;
+
+    font-weight: 600;
+
+    font-family: var(--font-display);
+
+    animation: heroFadeUp .8s ease .3s forwards;
+
+}
+
+
+/* ==========================================================
+   TITLE
+   ========================================================== */
+
+.hero-title {
+
+    margin-bottom: 1.25rem;
+
+    color: white;
+
+    line-height: 1.1;
+
+    font-size: clamp(2.5rem,5vw,4rem);
+
+    font-family: var(--font-body);
+
+    font-weight: 800;
+
+    letter-spacing: -.03em;
+
+    animation: heroFadeUp .8s ease .5s forwards;
+
+}
+
+.hero-title .accent {
+
+    color: #4fc3e8;
+
+}
+
+
+/* ==========================================================
+   SUBTITLE
+   ========================================================== */
+
+.hero-subtitle {
+
+    margin-bottom: 2.5rem;
+
+    color: rgba(255,255,255,.82);
+
+    font-size: 1.05rem;
+
+    line-height: 1.65;
+
+    animation: heroFadeUp .8s ease .7s forwards;
+
+}
+
+
+/* ==========================================================
+   CTA
+   ========================================================== */
+
+.hero-cta {
+
+    animation: heroFadeUp .8s ease .9s forwards;
+
+}
+
+.btn-discover {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .6rem;
+
+    padding: .85rem 2rem;
+
+    border: 2px solid transparent;
+
+    border-radius: 4px;
+
+    background: var(--primary);
+
+    color: white;
+
+    cursor: pointer;
+
+    text-transform: uppercase;
+
+    text-decoration: none;
+
+    letter-spacing: .06em;
+
+    font-size: .9rem;
+
+    font-weight: 700;
+
+    font-family: var(--font-display);
+
+    box-shadow: 0 4px 24px rgba(12,128,161,.35);
+
+    transition:
+        background .25s ease,
+        transform .2s ease,
+        box-shadow .25s ease;
+
+}
+
+.btn-discover:hover {
+
+    background: #0a6e8c;
+
+    color: white;
+
+    text-decoration: none;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 32px rgba(12,128,161,.45);
+
+}
+
+.btn-discover svg {
+
+    transition: transform .25s ease;
+
+}
+
+.btn-discover:hover svg {
+
+    transform: translateY(3px);
+
+}
+
+
+/* ==========================================================
+   HERO IMAGE
+   ========================================================== */
+
+.hero-image {
+
+    max-width: 860px;
+
+    margin: 32px auto;
+
+    overflow: hidden;
+
+    border-radius: var(--radius);
+
+    box-shadow: 0 8px 32px rgba(26,58,92,.15);
+
+}
+
+.hero-image img {
+
+    width: 100%;
+
+    display: block;
+
+}
+
+
+/* ==========================================================
+   FADE ANIMATION
+   ========================================================== */
+
+@keyframes heroFadeUp {
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}

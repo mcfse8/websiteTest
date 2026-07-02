@@ -1,0 +1,166 @@
+/* =======================================
+   VARIABLES
+======================================= */
+
+:root {
+
+    --primary:#1a3a5c;
+
+    --primary-light:#2a5a8c;
+
+    --accent:#3e8bc4;
+
+    --foreground:#1c1c1c;
+
+    --foreground-light:#5a6270;
+
+    --background:#ffffff;
+
+    --bg-alt:#f5f7fa;
+
+    --separator:#d0dce8;
+
+    --radius:8px;
+
+    --max-width:1080px;
+
+    --nav-height:100px;
+
+    --font-display: 'Playfair Display', Georgia, serif;
+
+    --font-body: 'Source Sans 3', 'Helvetica Neue', sans-serif;
+
+
+}
+
+/* =======================================
+   RESET
+======================================= */
+
+*,
+*::before,
+*::after{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    background:var(--background);
+
+    color:var(--foreground);
+
+    font-family:var(--font-body);
+
+    font-size:16px;
+
+    line-height:1.7;
+
+}
+
+img{
+
+    display:block;
+
+    max-width:100%;
+
+}
+
+a{
+
+    color:inherit;
+
+    text-decoration:none;
+
+}
+
+ul{
+
+    list-style:none;
+
+}
+
+/* =======================================
+   CONTAINERS
+======================================= */
+
+.container{
+
+    width:min(100% - 48px,var(--max-width));
+
+    margin:auto;
+
+}
+
+.text-spascia{
+
+    max-width:var(--max-width);
+
+    margin:auto;
+
+    padding:40px 24px;
+
+}
+
+.text-spascia p{
+
+    margin-bottom:20px;
+
+    text-align:justify;
+
+}
+
+.text-spascia ol{
+
+    padding-left:24px;
+
+    margin-bottom:24px;
+
+}
+
+.home-title {
+    font-size : 30px;
+    font-weight: bold;
+    max-width:var(--max-width);
+    margin: auto;
+    text-align: center;
+}
+
+/* =======================================
+   UTILITAIRES
+======================================= */
+
+.hidden{
+
+    display:none;
+
+}
+
+.center{
+
+    text-align:center;
+
+}
+
+.mt-2{
+
+    margin-top:2rem;
+
+}
+
+.mb-2{
+
+    margin-bottom:2rem;
+
+}
