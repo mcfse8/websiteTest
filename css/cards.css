@@ -28,6 +28,12 @@
   gap: 16px;
 }
 
+.exomcash-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
 .box {
   position: relative;      /* nécessaire pour positionner l'image et l'overlay */
   padding: 0;
