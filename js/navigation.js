@@ -8,6 +8,8 @@ function highlightActiveNavLink() {
   let currentPage = window.location.pathname.split('/').pop();
   if (currentPage === '') currentPage = 'index.html';
   if (currentPage == 'exomcash.html') currentPage = 'projects.html';
+  if (currentPage == 'megese.html') currentPage = 'projects.html';
+  // if (currentPage == 'exomcash.html') currentPage = 'projects.html';
 
   document.querySelectorAll('.nav-center a').forEach(link => {
     const linkPage = link.getAttribute('href');
