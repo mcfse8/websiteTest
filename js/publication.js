@@ -1,6 +1,6 @@
 (async function(){
 
-  const DATA_URL = 'publis.xlsx';
+  const DATA_URL = '../publis.xlsx';
   const contentEl = document.getElementById('content');
   const coreStripEl = document.getElementById('coreStrip');
   const statsEl = document.getElementById('stats');
