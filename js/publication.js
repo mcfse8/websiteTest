@@ -1,6 +1,6 @@
 (async function(){
 
-  const DATA_URL = '../publis.xlsx';
+  const DATA_URL = '../publis_SPASCIA.xlsx';
   const contentEl = document.getElementById('content');
   const coreStripEl = document.getElementById('coreStrip');
   const statsEl = document.getElementById('stats');
@@ -157,8 +157,8 @@
   } catch (err) {
     console.error(err);
     renderEmpty(
-      `Impossible de charger <code>${escapeHtml(DATA_URL)}</code>.`,
-      `Place le fichier <code>publis.xlsx</code> dans le même dossier que cette page, et ouvre la page via un serveur local ou GitHub Pages (le chargement direct en <code>file://</code> est bloqué par le navigateur).`
-    );
+    `Impossible de charger ${DATA_URL}.`,
+    `Erreur : ${err.message}`
+  );
   }
 })();
