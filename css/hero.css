@@ -380,31 +380,39 @@
    ========================================================== */
 
 .btn-back {
+    display: inline-block;
+    padding: 20px;
+    border: none;
     border-radius: 4px;
     background-color: #0a6e8c;
-    border: none;
-    color: #FFFFFF;
+    color: #fff;
+    text-decoration: none;
     text-align: center;
     font-size: 14px;
-    padding: 20px;
-    transition: all 0.5s;
     cursor: pointer;
-    margin: 5px;
+    transition: 0.5s;
 }
 
-.btn-back > span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
+.btn-back span {
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
-.btn-back > span:after {
-  content: '« ';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  left: 0px;
-  transition: 0.5s;
+.btn-back span::before {
+    content: "«";
+    position: absolute;
+    left: -18px;
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.btn-back:hover span {
+    padding-left: 18px;
+}
+
+.btn-back:hover span::before {
+    opacity: 1;
+    left: 0;
 }
 
