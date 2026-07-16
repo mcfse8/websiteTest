@@ -162,11 +162,8 @@ function display(list){
                     <h3>${pub.Title}</h3>
 
                     <div class="meta">
-
-                        ${pub.Type}
-                        •
-                        <i>${pub.Journal}</i>
-
+                        <span class="badge">${pub.Type}</span>
+                        <span><i>${pub.Journal}</i></span>
                     </div>
 
                     <div class="authors">
