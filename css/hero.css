@@ -379,7 +379,7 @@
    BACK BUTTON
    ========================================================== */
 
-.back-button {
+.btn-back {
     border-radius: 4px;
     background-color: #0a6e8c;
     border: none;
@@ -392,7 +392,7 @@
     margin: 5px;
 }
 
-.back-button > span {
+.btn-back > span {
   cursor: pointer;
   display: inline-block;
   transition: 0.5s;
