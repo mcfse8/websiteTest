@@ -65,16 +65,47 @@
 
 <main>
 
-    <header class="page-head">
-      <p class="eyebrow">Bibliographie</p>
-      <h1>Publications</h1>
-      <p class="page-sub">Articles scientifiques, revues et actes de conférence, classés par année de parution. Les noms en couleur signalent une co-autrice ou un co-auteur de l'équipe.</p>
-      <div class="stats" id="stats"></div>
-    </header>
+    <!-- En-tête de la page -->
+    <section class="hero publications-hero">
 
-    <div id="content">
-      <div class="skeleton">Chargement des publications…</div>
-    </div>
+        <h1>Publications</h1>
+
+        <p>
+            PUBLICATIONS
+        </p>
+
+    </section>
+
+    <!-- Filtres -->
+    <section class="filters">
+
+        <input
+            type="text"
+            id="search"
+            placeholder="Rechercher un titre, un auteur ou un journal..."
+        >
+
+        <select id="yearFilter">
+            <option value="">All</option>
+        </select>
+
+        <select id="typeFilter">
+            <option value="">All</option>
+        </select>
+
+    </section>
+
+    <!-- Statistiques -->
+    <div id="publication-count" class="stats"></div>
+
+    <!-- Contenu généré automatiquement -->
+    <section id="publications">
+
+        <div class="skeleton">
+            Chargement des publications...
+        </div>
+
+    </section>
 
 </main>
 
@@ -90,13 +121,7 @@
 </footer>
 
 <script src="../js/utils.js"></script>
-<script src="../js/csv.js"></script>
-<script src="../js/products.js"></script>
-<script src="../js/pagination.js"></script>
 <script src="../js/navigation.js"></script>
-<script src="../js/slider.js"></script>
-<script src="../js/main.js"></script>
-<script src="../js/exomcash.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="../js/publication.js"></script>
 

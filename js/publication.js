@@ -1,164 +1,195 @@
-(async function(){
+let publications = [];
 
-  const DATA_URL = '../publis_SPASCIA.xlsx';
-  const contentEl = document.getElementById('content');
-  const coreStripEl = document.getElementById('coreStrip');
-  const statsEl = document.getElementById('stats');
+fetch("../publications.xlsx")
+    .then(response => response.arrayBuffer())
+    .then(data => {
 
-  function escapeHtml(str){
-    return String(str ?? '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
+        const workbook = XLSX.read(data, {
+            type: "array"
+        });
 
-  // Wrap any names listed in company_Authors, wherever they occur inside the
-  // Authors string, in a highlighted span. Longest names are matched first so
-  // a short name can't clip inside a longer one that contains it.
-  function highlightCompanyAuthors(authorsRaw, companyAuthorsRaw){
-    let authorsHtml = escapeHtml(authorsRaw);
-    if (!companyAuthorsRaw) return authorsHtml;
+        // Première feuille du classeur
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-    const names = String(companyAuthorsRaw)
-      .split(/[;,/|]/)
-      .map(s => s.trim())
-      .filter(Boolean)
-      .sort((a, b) => b.length - a.length);
+        // Conversion en tableau d'objets
+        publications = XLSX.utils.sheet_to_json(sheet);
 
-    names.forEach(name => {
-      const escapedName = escapeHtml(name);
-      const pattern = escapedName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const re = new RegExp(pattern, 'gi');
-      authorsHtml = authorsHtml.replace(re, matched => `<span class="company-author">${matched}</span>`);
+        // Trie du plus récent au plus ancien
+        publications.sort((a, b) => b.Year - a.Year);
+
+        initializeFilters();
+        display(publications);
+
+    })
+    .catch(error => {
+
+        console.error(error);
+
+        document.getElementById("publications").innerHTML =
+            "<p>Impossible de charger les publications.</p>";
+
     });
 
-    return authorsHtml;
-  }
 
-  function buildDoiLink(doiRaw){
-    if (!doiRaw) return '';
-    const doi = String(doiRaw).trim();
-    if (!doi) return '';
-    const href = doi.startsWith('http') ? doi : `https://doi.org/${doi}`;
-    return `<a class="doi-link" href="${escapeHtml(href)}" target="_blank" rel="noopener">${escapeHtml(doi.replace(/^https?:\/\/(dx\.)?doi\.org\//, ''))}</a>`;
-  }
+function initializeFilters(){
 
-  function renderEmpty(message, hint){
-    contentEl.innerHTML = `
-      <div class="state-box">
-        <p>${message}</p>
-        ${hint ? `<p>${hint}</p>` : ''}
-      </div>
-    `;
-  }
+    const years = [...new Set(publications.map(p=>p.Year))]
+        .sort((a,b)=>b-a);
 
-  function render(rows){
-    if (!rows.length){
-      renderEmpty('Aucune publication trouvée dans le fichier.', 'Vérifie que la première feuille de <code>publis.xlsx</code> contient bien des lignes de données.');
-      return;
-    }
+    const yearSelect = document.getElementById("yearFilter");
 
-    // group by year, descending
-    const byYear = new Map();
-    rows.forEach(r => {
-      const year = String(r.Year ?? '').trim() || 's.d.';
-      if (!byYear.has(year)) byYear.set(year, []);
-      byYear.get(year).push(r);
+    years.forEach(year=>{
+
+        let option=document.createElement("option");
+
+        option.value=year;
+        option.textContent=year;
+
+        yearSelect.appendChild(option);
+
     });
 
-    const years = Array.from(byYear.keys()).sort((a, b) => {
-      const na = parseInt(a, 10), nb = parseInt(b, 10);
-      if (isNaN(na)) return 1;
-      if (isNaN(nb)) return -1;
-      return nb - na;
+
+    const types=[...new Set(publications.map(p=>p.Type))];
+
+    const typeSelect=document.getElementById("typeFilter");
+
+    types.forEach(type=>{
+
+        let option=document.createElement("option");
+
+        option.value=type;
+        option.textContent=type;
+
+        typeSelect.appendChild(option);
+
     });
 
-    // stats
-    const totalCitations = rows.reduce((sum, r) => sum + (parseInt(r.Citations, 10) || 0), 0);
-    statsEl.innerHTML = `
-      <span><b>${rows.length}</b>publications</span>
-      <span><b>${years.length}</b>années couvertes</span>
-      <span><b>${totalCitations}</b>citations cumulées</span>
-    `;
+}
 
-    // sidebar
-    coreStripEl.innerHTML = years.map((y, i) => `
-      <div class="core-tick${i === 0 ? ' is-active' : ''}" data-year="${escapeHtml(y)}">
-        <span class="core-dot"></span>
-        <a href="#year-${escapeHtml(y)}">${escapeHtml(y)}</a>
-      </div>
-    `).join('');
 
-    // main content
-    contentEl.innerHTML = years.map(year => {
-      const entries = byYear.get(year).slice().sort((a, b) =>
-        String(a.Title ?? '').localeCompare(String(b.Title ?? ''))
-      );
+document.getElementById("search").addEventListener("input",filter);
 
-      const entriesHtml = entries.map(r => {
-        const citations = parseInt(r.Citations, 10) || 0;
-        const doiLink = buildDoiLink(r.DOI);
-        return `
-          <article class="entry">
-            <h3 class="entry-title">${escapeHtml(r.Title)}</h3>
-            <p class="entry-authors">${highlightCompanyAuthors(r.Authors, r.company_Authors)}</p>
-            ${r.Journal ? `<p class="entry-journal">${escapeHtml(r.Journal)}</p>` : ''}
-            <div class="entry-meta">
-              ${r.Type ? `<span class="tag">${escapeHtml(r.Type)}</span>` : ''}
-              ${doiLink}
-              ${citations > 0 ? `<span class="citation-badge">${citations} citation${citations > 1 ? 's' : ''}</span>` : ''}
-            </div>
-          </article>
-        `;
-      }).join('');
+document.getElementById("yearFilter").addEventListener("change",filter);
 
-      return `
-        <section class="year-section" id="year-${escapeHtml(year)}">
-          <div class="year-heading">
-            <span class="num">${escapeHtml(year)}</span>
-            <span class="rule"></span>
-            <span class="count">${entries.length} publication${entries.length > 1 ? 's' : ''}</span>
-          </div>
-          ${entriesHtml}
-        </section>
-      `;
-    }).join('');
+document.getElementById("typeFilter").addEventListener("change",filter);
 
-    setupScrollSpy(years);
-  }
 
-  function setupScrollSpy(years){
-    const sections = years.map(y => document.getElementById(`year-${y}`)).filter(Boolean);
-    const ticks = Array.from(document.querySelectorAll('.core-tick'));
+function filter(){
 
-    if (!('IntersectionObserver' in window) || !sections.length) return;
+    const search=document.getElementById("search").value.toLowerCase();
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting){
-          const year = entry.target.id.replace('year-', '');
-          ticks.forEach(t => t.classList.toggle('is-active', t.dataset.year === year));
-        }
-      });
-    }, { rootMargin: '-15% 0px -75% 0px', threshold: 0 });
+    const year=document.getElementById("yearFilter").value;
 
-    sections.forEach(s => observer.observe(s));
-  }
+    const type=document.getElementById("typeFilter").value;
 
-  try {
-    const response = await fetch(DATA_URL);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const buffer = await response.arrayBuffer();
-    const workbook = XLSX.read(buffer, { type: 'array' });
-    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-    const rows = XLSX.utils.sheet_to_json(firstSheet, { defval: '' });
-    render(rows);
-  } catch (err) {
-    console.error(err);
-    renderEmpty(
-    `Impossible de charger ${DATA_URL}.`,
-    `Erreur : ${err.message}`
-  );
-  }
-})();
+
+    const filtered=publications.filter(pub=>{
+
+        const text=JSON.stringify(pub).toLowerCase();
+
+        return (
+            text.includes(search)
+            &&
+            (year==="" || pub.Year===year)
+            &&
+            (type==="" || pub.Type===type)
+        );
+
+    });
+
+    display(filtered);
+
+}
+
+
+function display(list){
+
+    document.getElementById("publication-count").innerHTML=
+        list.length+" publication(s)";
+
+    const container=document.getElementById("publications");
+
+    container.innerHTML="";
+
+    const grouped={};
+
+    list.forEach(pub=>{
+
+        if(!grouped[pub.Year])
+            grouped[pub.Year]=[];
+
+        grouped[pub.Year].push(pub);
+
+    });
+
+    Object.keys(grouped)
+        .sort((a,b)=>b-a)
+        .forEach(year=>{
+
+            const title=document.createElement("div");
+
+            title.className="year-title";
+
+            title.innerHTML=year;
+
+            container.appendChild(title);
+
+            grouped[year].forEach(pub=>{
+
+                const div=document.createElement("div");
+
+                div.className="publication";
+
+                const doi=pub.DOI
+                    ? `<a href="https://doi.org/${pub.DOI}" target="_blank">${pub.DOI}</a>`
+                    : "";
+
+                div.innerHTML=`
+
+                    <h3>${pub.Title}</h3>
+
+                    <div class="meta">
+
+                        ${pub.Type}
+                        •
+                        <i>${pub.Journal}</i>
+
+                    </div>
+
+                    <div class="authors">
+
+                        ${pub.Authors}
+
+                    </div>
+
+                    <div class="spascia">
+
+                        SPASCIA Authors :
+                        ${pub["SPASCIA Authors"]}
+
+                    </div>
+
+                    <p>
+
+                        DOI :
+                        ${doi}
+
+                    </p>
+
+                    <p>
+
+                        Citations :
+                        ${pub.Citations}
+
+                    </p>
+
+                `;
+
+                container.appendChild(div);
+
+            });
+
+        });
+
+}
