@@ -2,7 +2,7 @@ console.log('Nouveau publi.js')
 
 let publications = [];
 
-fetch("./publications.xlsx")
+fetch("../publis_SPASCIA.xlsx")
     .then(response => {
         console.log(response.status);
         console.log(response.headers.get("content-type"));
