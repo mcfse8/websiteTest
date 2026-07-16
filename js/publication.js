@@ -166,16 +166,10 @@ function display(list){
                         <span><i>${pub.Journal}</i></span>
                     </div>
 
-                    <div class="authors">
-
-                        ${pub.Authors}
-
-                    </div>
-
                     <div class="spascia">
 
                         SPASCIA Authors :
-                        ${pub["SPASCIA Authors"]}
+                        ${pub["SPASCIA Authors"].filter(onlyUnique)}
 
                     </div>
 
