@@ -173,7 +173,8 @@ function display(list){
                     <div class="spascia">
 
                         SPASCIA Authors :
-                        ${pub["SPASCIA Authors"].filter(onlyUnique)}
+                        ${pub["SPASCIA Authors"]}
+                        ${typeof pub["SPASCIA Authors"]}
 
                     </div>
 
