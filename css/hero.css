@@ -399,7 +399,7 @@
     transition: 0.5s;
 }
 
-.btn-back span::before {
+.btn-back span::after {
     content: "«";
     position: absolute;
     left: -18px;
@@ -411,7 +411,7 @@
     padding-left: 18px;
 }
 
-.btn-back:hover span::before {
+.btn-back:hover span::after {
     opacity: 1;
     left: 0;
 }
