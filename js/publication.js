@@ -42,6 +42,10 @@ fetch("../publis_SPASCIA.xlsx")
 
     });
 
+function onlyUnique(value, index, array) {
+  return array.indexOf(value) === index;
+}
+
 
 function initializeFilters(){
 
