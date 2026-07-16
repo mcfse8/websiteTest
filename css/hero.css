@@ -374,3 +374,33 @@
     }
 
 }
+
+/* ==========================================================
+   BACK BUTTON
+   ========================================================== */
+
+.back-button {
+    border-radius: 4px;
+    background-color: #0a6e8c;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.back-button > span {
+  cursor: pointer;
+  display: inline-block;
+  transition: 0.5s;
+  content: '« ';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0px;
+  transition: 0.5s;
+}
+
