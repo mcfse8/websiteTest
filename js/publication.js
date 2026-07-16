@@ -1,3 +1,5 @@
+console.log('Nouveau publi.js')
+
 let publications = [];
 
 fetch("../publications.xlsx")
