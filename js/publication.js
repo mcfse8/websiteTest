@@ -2,45 +2,45 @@ console.log('Nouveau publi.js')
 
 let publications = [];
 
-fetch("../publis_SPASCIA.xlsx")
-    .then(response => {
-        console.log(response.status);
-        console.log(response.headers.get("content-type"));
-        return response.arrayBuffer();
-    })
-    .then(data => {
-        console.log(data.byteLength);
-    });
-
 // fetch("../publis_SPASCIA.xlsx")
-//     .then(response => response.arrayBuffer())
-//     .then(data => {
-
-//         const workbook = XLSX.read(data, {
-//             type: "array"
-//         });
-
-//         // Première feuille du classeur
-//         const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
-//         // Conversion en tableau d'objets
-//         publications = XLSX.utils.sheet_to_json(sheet);
-
-//         // Trie du plus récent au plus ancien
-//         publications.sort((a, b) => b.Year - a.Year);
-
-//         initializeFilters();
-//         display(publications);
-
+//     .then(response => {
+//         console.log(response.status);
+//         console.log(response.headers.get("content-type"));
+//         return response.arrayBuffer();
 //     })
-//     .catch(error => {
-
-//         console.error(error);
-
-//         document.getElementById("publications").innerHTML =
-//             "<p>Impossible de charger les publications.</p>";
-
+//     .then(data => {
+//         console.log(data.byteLength);
 //     });
+
+fetch("../publis_SPASCIA.xlsx")
+    .then(response => response.arrayBuffer())
+    .then(data => {
+
+        const workbook = XLSX.read(data, {
+            type: "array"
+        });
+
+        // Première feuille du classeur
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+        // Conversion en tableau d'objets
+        publications = XLSX.utils.sheet_to_json(sheet);
+
+        // Trie du plus récent au plus ancien
+        publications.sort((a, b) => b.Year - a.Year);
+
+        initializeFilters();
+        display(publications);
+
+    })
+    .catch(error => {
+
+        console.error(error);
+
+        document.getElementById("publications").innerHTML =
+            "<p>Impossible de charger les publications.</p>";
+
+    });
 
 
 function initializeFilters(){
