@@ -103,3 +103,13 @@ table.data-table tbody tr:hover { background: #eaf1f8; }
 .table-pagination button:hover {
   background: #f0f0f0;
 }
+
+/* ── MAP ── */
+
+.map{
+  height: 600px;
+  position: relative;
+  width: 1080px;
+  margin: 0 auto;
+  padding: 15px 0 0;
+}

@@ -142,4 +142,19 @@ function DisplayMap() {
     L.marker([48.8566, 2.3522])
         .addTo(map)
         .bindPopup("Paris");
+
+    data.forEach(point => {
+    L.marker([
+        Number(point.latitude),
+        Number(point.longitude)
+    ])
+    .addTo(map)
+    .bindPopup(`
+        Date : ${point.Date}<br>
+        Type : ${point.type}
+    `);
+    });
+
 }
+
+
