@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="../css/carousel.css">
     <link rel="stylesheet" href="../css/texte.css">
 
-
 </head>
 
 <body>
@@ -64,7 +63,73 @@
 </header>
 
 <main>
-    PAGE PRODUITS
+        <!-- ── PRODUCTS ── -->
+    <section id="products" class="page">
+        <article class="journal-article">
+
+        <div class="article-header">
+            <h1>Présentation du cas : Éruption de l'Etna en décembre 2025</h1>
+            <p class="article-intro">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+            Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+            </p>
+        </div>
+
+        <figure class="article-media">
+            <img src="EtnaIASI.gif" alt="Description du GIF" class="gif-product">
+            <figcaption>
+            <strong>Figure :</strong> blablabla blabla blablablabla blabla bla blablabla, blabla
+            </figcaption>
+        </figure>
+
+        <div class="text-spascia">
+            <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+            Suspendisse lectus tortor, dignissim sit amet, adipiscing nec,
+            ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa,
+            varius a, semper congue, euismod non, mi. Proin porttitor,
+            orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat.
+            Duis semper. Duis arcu massa, scelerisque vitae,
+            consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.
+            Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim.
+            Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus
+            orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede
+            pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.
+            </p>
+        </div>
+
+        </article>
+
+        <!-- ── DATA TABLE ── -->
+        <section class="data-table-section">
+        <h2>Données de monitoring</h2>
+        <div class="data-table-meta">
+            <span class="data-table-status" id="data-table-status">Chargement des données…</span>
+            <button class="btn-refresh" id="data-table-refresh-btn" onclick="loadMonitoringData(true)">
+            Actualiser
+            </button>
+        </div>
+        <div class="data-table-wrapper">
+            <table class="data-table" id="data-table">
+            <thead id="data-table-head">
+            </thead>
+            <tbody id="data-table-body">
+            </tbody>
+            </table>
+        </div>
+        </section>
+
+        <div class="table-pagination">
+        <button onclick="previousPage()">← Précédent</button>
+
+        <span id="page-info">
+            Page 1 / 1
+        </span>
+
+        <button onclick="nextPage()">Suivant →</button>
+        </div>
+
+    </section>
 </main>
 
 <footer>
@@ -79,14 +144,16 @@
 </footer>
 
 <script src="../js/utils.js"></script>
-<script src="../js/csv.js"></script>
-<script src="../js/products.js"></script>
-<script src="../js/pagination.js"></script>
 <script src="../js/navigation.js"></script>
 <script src="../js/slider.js"></script>
 <script src="../js/main.js"></script>
-<script src="../js/exomcash.js"></script>
 
 </body>
 
 </html>
+
+
+
+
+
+ 
