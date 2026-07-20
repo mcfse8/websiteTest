@@ -321,7 +321,7 @@ function drawClusterHulls(hullLayer, data) {
             onEachFeature(feature, layer) {
 
                 layer.bindPopup(`
-                    <b>Cycle : </b> ${point["DAY/NIGHT"]}<br>
+                    <b>Cycle : </b> ${points["DAY/NIGHT"]}<br>
                     <b>Cluster :</b> ${clusterId}<br>
                     <b>Catégorie :</b> ${points[0].cluster_category}<br>
                     <b>Nombre de points :</b> ${points.length}
