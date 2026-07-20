@@ -127,17 +127,19 @@ function renderDataTable(rows) {
 // Affichage map
 // ------------------------------------------------------------------
 
-function DisplayMap(){
+window.addEventListener("DOMContentLoaded", () => {
+    DisplayMap();
+});
 
-  const map = L.map('map').setView([46.5, 2.5], 6);
+function DisplayMap() {
 
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap'
-  }).addTo(map);
+    const map = L.map("map").setView([46.5, 2.5], 6);
 
-  L.marker([48.8566, 2.3522])
-      .addTo(map)
-      .bindPopup("Paris");
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap"
+    }).addTo(map);
 
+    L.marker([48.8566, 2.3522])
+        .addTo(map)
+        .bindPopup("Paris");
 }
-
