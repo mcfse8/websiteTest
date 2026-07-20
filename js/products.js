@@ -146,22 +146,16 @@ const clusterColors = {
     voc: "#ffff33"
 };
 
+let map;
+let pointLayer;
+let hullLayer;
+
+let allData = [];
+
+let currentDate = "2026-02-20";
+let currentPeriod = "ALL";
+
 /* Carte */
-
-async function DisplayMap() {
-
-    const map = createMap();
-
-    const allData = await loadMonitoringData();
-
-    const data = filterData(allData, "2026-02-20");
-
-    drawPoints(map, data);
-
-    drawClusterHulls(map, data);
-}
-
-/* Création de la carte */
 
 function createMap() {
 
@@ -179,12 +173,37 @@ function createMap() {
 
 /* Filtrage */
 
-function filterData(data, date) {
+function filterData(data) {
 
-    return data.filter(point => point.date === date);
+    return data.filter(point => {
+
+        const okDate =
+            point.date === currentDate;
+
+        const okPeriod =
+            currentPeriod === "ALL"
+            || point["DAY/NIGHT"] === currentPeriod;
+
+        return okDate && okPeriod;
+
+    });
 
 }
 
+/* Refresh */
+
+function refreshMap() {
+
+    pointLayer.clearLayers();
+    hullLayer.clearLayers();
+
+    const data = filterData(allData);
+
+    drawPoints(pointLayer, data);
+
+    drawClusterHulls(hullLayer, data);
+
+}
 /* Couleur d'un cluster */
 
 function getClusterColor(clusterCategory) {
@@ -195,7 +214,7 @@ function getClusterColor(clusterCategory) {
 
 /* Affichage des points */
 
-function drawPoints(map, data) {
+function drawPoints(pointLayer, data) {
 
     data.forEach(point => {
 
@@ -215,7 +234,7 @@ function drawPoints(map, data) {
             }
         )
         .bindPopup(createPopup(point))
-        .addTo(map);
+        .addTo(pointLayer);
 
     });
 
@@ -226,12 +245,11 @@ function drawPoints(map, data) {
 function createPopup(point) {
 
     return `
-        <b>Date :</b> ${point.date}<br>
+        <b>Date :</b> ${point.date} ${point["DAY/NIGHT"]}<br>
         <b>Cluster :</b> ${point.cluster_number}<br>
         <b>Catégorie :</b> ${point.cluster_category}<br>
         <b>Pays :</b> ${point["Country/Sea"]}<br>
         <b>Région :</b> ${point.Region}<br>
-        <b>Détections :</b> ${point.ndetection}
     `;
 
 }
@@ -260,7 +278,7 @@ function groupByCluster(data) {
 
 /* Dessin des enveloppes convexes */
 
-function drawClusterHulls(map, data) {
+function drawClusterHulls(hullLayer, data) {
 
     const clusters = groupByCluster(data);
 
@@ -288,6 +306,7 @@ function drawClusterHulls(map, data) {
             onEachFeature(feature, layer) {
 
                 layer.bindPopup(`
+                    <b>Cycle : </b> ${point["DAY/NIGHT"]}<br>
                     <b>Cluster :</b> ${clusterId}<br>
                     <b>Catégorie :</b> ${points[0].cluster_category}<br>
                     <b>Nombre de points :</b> ${points.length}
@@ -295,7 +314,7 @@ function drawClusterHulls(map, data) {
 
             }
 
-        }).addTo(map);
+        }).addTo(hullLayer);
 
     });
 
@@ -317,5 +336,64 @@ function computeConvexHull(points) {
     const collection = turf.featureCollection(features);
 
     return turf.convex(collection);
+
+}
+
+/* Bouton Day Night */ 
+
+function addDayNightControl(map) {
+
+    const Control = L.Control.extend({
+
+        onAdd: function () {
+
+            const div = L.DomUtil.create("div", "leaflet-bar");
+
+            div.innerHTML = `
+                <button id="btnAll">ALL</button>
+                <button id="btnDay">DAY</button>
+                <button id="btnNight">NIGHT</button>
+            `;
+
+            return div;
+        }
+
+    });
+
+    new Control({ position: "topright" }).addTo(map);
+
+    setTimeout(() => {
+
+        document
+            .getElementById("btnAll")
+            .onclick = () => {
+
+                currentPeriod = "ALL";
+
+                refreshMap();
+
+            };
+
+        document
+            .getElementById("btnDay")
+            .onclick = () => {
+
+                currentPeriod = "DAY";
+
+                refreshMap();
+
+            };
+
+        document
+            .getElementById("btnNight")
+            .onclick = () => {
+
+                currentPeriod = "NIGHT";
+
+                refreshMap();
+
+            };
+
+    });
 
 }
