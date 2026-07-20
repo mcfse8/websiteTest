@@ -133,8 +133,8 @@ function renderDataTable(rows) {
 
 window.addEventListener("DOMContentLoaded", async () => {
     console.log("Appel DisplayMap()");
-    await createMap();
-    await refreshMap();
+    await DisplayMap();
+    // await refreshMap();
 });
 
 /* Palette de couleurs */
@@ -170,6 +170,20 @@ function createMap() {
     ).addTo(map);
 
     return map;
+}
+
+async function DisplayMap() {
+
+    map = createMap();
+
+    pointLayer = L.layerGroup().addTo(map);
+    hullLayer = L.layerGroup().addTo(map);
+
+    addDayNightControl(map);
+
+    allData = await loadMonitoringData();
+
+    refreshMap();
 }
 
 /* Filtrage */
