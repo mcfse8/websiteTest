@@ -40,6 +40,9 @@ async function loadMonitoringData(forceRefresh = false) {
       `${CSV_FILE}?t=${Date.now()}`
     );
 
+    console.log("Status :", response.status);
+    console.log("OK :", response.ok);
+
     if (!response.ok) {
       throw new Error(`Erreur HTTP ${response.status}`);
     }
