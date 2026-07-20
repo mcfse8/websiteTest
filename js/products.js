@@ -134,6 +134,7 @@ function renderDataTable(rows) {
 window.addEventListener("DOMContentLoaded", async () => {
     console.log("Appel DisplayMap()");
     await createMap();
+    await refreshMap();
 });
 
 /* Palette de couleurs */
