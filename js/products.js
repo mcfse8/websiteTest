@@ -136,36 +136,86 @@ window.addEventListener("DOMContentLoaded", () => {
     DisplayMap();
 });
 
+// async function DisplayMap() {
+
+//     console.log('Création de la map');
+
+//     console.log(L);
+
+//     const map = L.map("map").setView([46.5, 2.5], 6);
+
+//     const data = await loadMonitoringData();
+
+//     console.log("data : ", data);
+
+//     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+//         attribution: "&copy; OpenStreetMap"
+//     }).addTo(map);
+
+//     L.marker([48.8566, 2.3522])
+//         .addTo(map)
+//         .bindPopup("Paris");
+
+//     data.forEach(point => {
+//       console.log(point);
+//       L.marker([
+//           Number(point.latitude),
+//           Number(point.longitude)
+//       ])
+//       .addTo(map)
+//       .bindPopup(`
+//           Date : ${point.date}<br>
+//       `);
+//     });
+
+// }
+
 async function DisplayMap() {
 
-    console.log('Création de la map');
-
-    console.log(L);
-
     const map = L.map("map").setView([46.5, 2.5], 6);
-
-    const data = await loadMonitoringData();
-
-    console.log("data : ", data);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap"
     }).addTo(map);
 
-    L.marker([48.8566, 2.3522])
-        .addTo(map)
-        .bindPopup("Paris");
+    const data = await loadMonitoringData();
+
+    // Couleur associée à chaque cluster
+    const clusterColors = {
+        "fire": "#e41a1c",
+        "others": "#377eb8",
+        "fire_type_1": "#4daf4a",
+        "volcano": "#984ea3",
+        "fire_type_1": "#ff7f00",
+        "voc": "#ffff33"
+    };
 
     data.forEach(point => {
-      console.log(point);
-      L.marker([
-          Number(point.latitude),
-          Number(point.longitude)
-      ])
-      .addTo(map)
-      .bindPopup(`
-          Date : ${point.date}<br>
-      `);
+
+        const color = clusterColors[point.cluster_category] || "#666666";
+
+        L.circleMarker(
+            [
+                Number(point.latitude),
+                Number(point.longitude)
+            ],
+            {
+                radius: 5,
+                color: color,
+                fillColor: color,
+                fillOpacity: 0.8,
+                weight: 1
+            }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Date :</b> ${point.date}<br>
+            <b>Cluster :</b> ${point["cluster_category"]}<br>
+            <b>Country :</b> ${point["Country/Sea"]}<br>
+            <b>Region :</b> ${point["Region"]}<br>
+            <b>Detections :</b> ${point.ndetection}
+        `);
+
     });
 
 }
