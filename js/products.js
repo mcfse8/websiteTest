@@ -140,6 +140,8 @@ async function DisplayMap() {
 
     console.log('Création de la map');
 
+    console.log(L);
+
     const map = L.map("map").setView([46.5, 2.5], 6);
 
     const data = await loadMonitoringData();
