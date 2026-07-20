@@ -146,6 +146,8 @@ async function DisplayMap() {
 
     const data = await loadMonitoringData();
 
+    console.log(data);
+
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap"
     }).addTo(map);
@@ -155,15 +157,16 @@ async function DisplayMap() {
         .bindPopup("Paris");
 
     data.forEach(point => {
-    L.marker([
-        Number(point.latitude),
-        Number(point.longitude)
-    ])
-    .addTo(map)
-    .bindPopup(`
-        Date : ${point.Date}<br>
-        Type : ${point.type}
-    `);
+      console.log(point);
+      L.marker([
+          Number(point.latitude),
+          Number(point.longitude)
+      ])
+      .addTo(map)
+      .bindPopup(`
+          Date : ${point.Date}<br>
+          Type : ${point.type}
+      `);
     });
 
 }
