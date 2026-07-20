@@ -146,7 +146,7 @@ async function DisplayMap() {
 
     const data = await loadMonitoringData();
 
-    console.log(data);
+    console.log("data : ", data);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap"
