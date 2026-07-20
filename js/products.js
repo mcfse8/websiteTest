@@ -25,7 +25,7 @@ const rowsPerPage = 10;
 async function loadMonitoringData(forceRefresh = false) {
 
   if (monitoringDataLoaded && !forceRefresh) {
-    return;
+    return allRows;
   }
 
   const statusEl = document.getElementById("data-table-status");
@@ -51,7 +51,7 @@ async function loadMonitoringData(forceRefresh = false) {
 
     const csvText = await response.text();
 
-    const rows = parseCSV(csvText);
+    rows = parseCSV(csvText);
 
     allRows = rows;
 
@@ -164,8 +164,7 @@ async function DisplayMap() {
       ])
       .addTo(map)
       .bindPopup(`
-          Date : ${point.Date}<br>
-          Type : ${point.type}
+          Date : ${point.date}<br>
       `);
     });
 
