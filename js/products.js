@@ -128,74 +128,78 @@ function renderDataTable(rows) {
 }
 
 // ------------------------------------------------------------------
-// Affichage map
+// AFFICHAGE MAP
 // ------------------------------------------------------------------
 
-window.addEventListener("DOMContentLoaded", () => {
-  console.log("Appel de DisplayMap()");
-    DisplayMap();
+window.addEventListener("DOMContentLoaded", async () => {
+    console.log("Appel DisplayMap()");
+    await DisplayMap();
 });
 
-// async function DisplayMap() {
+/* Palette de couleurs */
 
-//     console.log('Création de la map');
+const clusterColors = {
+    fire: "#e41a1c",
+    others: "#377eb8",
+    volcano: "#984ea3",
+    fire_type_1: "#ff7f00",
+    voc: "#ffff33"
+};
 
-//     console.log(L);
-
-//     const map = L.map("map").setView([46.5, 2.5], 6);
-
-//     const data = await loadMonitoringData();
-
-//     console.log("data : ", data);
-
-//     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-//         attribution: "&copy; OpenStreetMap"
-//     }).addTo(map);
-
-//     L.marker([48.8566, 2.3522])
-//         .addTo(map)
-//         .bindPopup("Paris");
-
-//     data.forEach(point => {
-//       console.log(point);
-//       L.marker([
-//           Number(point.latitude),
-//           Number(point.longitude)
-//       ])
-//       .addTo(map)
-//       .bindPopup(`
-//           Date : ${point.date}<br>
-//       `);
-//     });
-
-// }
+/* Carte */
 
 async function DisplayMap() {
 
-    const map = L.map("map").setView([46.5, 2.5], 6);
-
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap"
-    }).addTo(map);
+    const map = createMap();
 
     const allData = await loadMonitoringData();
 
-    data = allData.filter((allData) => {
-      return allData.date=='2026-02-20';
-    });
+    const data = filterData(allData, "2026-02-20");
 
-    // Couleur associée à chaque cluster
-    const clusterColors = {
-        "fire": "#e41a1c",
-        "others": "#377eb8",
-        "volcano": "#984ea3",
-        "fire_type_1": "#ff7f00",
-        "voc": "#ffff33"
-    };
+    drawPoints(map, data);
+
+    drawClusterHulls(map, data);
+}
+
+/* Création de la carte */
+
+function createMap() {
+
+    const map = L.map("map").setView([46.5, 2.5], 6);
+
+    L.tileLayer(
+        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution: "&copy; OpenStreetMap"
+        }
+    ).addTo(map);
+
+    return map;
+}
+
+/* Filtrage */
+
+function filterData(data, date) {
+
+    return data.filter(point => point.date === date);
+
+}
+
+/* Couleur d'un cluster */
+
+function getClusterColor(clusterCategory) {
+
+    return clusterColors[clusterCategory] || "#666666";
+
+}
+
+/* Affichage des points */
+
+function drawPoints(map, data) {
 
     data.forEach(point => {
 
-        const color = clusterColors[point.cluster_category] || "#666666";
+        const color = getClusterColor(point.cluster_category);
 
         L.circleMarker(
             [
@@ -204,25 +208,114 @@ async function DisplayMap() {
             ],
             {
                 radius: 5,
-                color: color,
+                color,
                 fillColor: color,
                 fillOpacity: 0.8,
                 weight: 1
             }
         )
-        .addTo(map)
-        .bindPopup(`
-            <b>Date :</b> ${point.date}<br>
-            <b>Cluster :</b> ${point["cluster_category"]}<br>
-            <b>Country :</b> ${point["Country/Sea"]}<br>
-            <b>Region :</b> ${point["Region"]}<br>
-        `);
+        .bindPopup(createPopup(point))
+        .addTo(map);
 
     });
 
 }
 
-// ------------------------------------------------------------------
-// Fin Affichage map
-// ------------------------------------------------------------------
+/* Popup */
 
+function createPopup(point) {
+
+    return `
+        <b>Date :</b> ${point.date}<br>
+        <b>Cluster :</b> ${point.cluster_number}<br>
+        <b>Catégorie :</b> ${point.cluster_category}<br>
+        <b>Pays :</b> ${point["Country/Sea"]}<br>
+        <b>Région :</b> ${point.Region}<br>
+        <b>Détections :</b> ${point.ndetection}
+    `;
+
+}
+
+/* Regroupement des points par cluster */
+
+function groupByCluster(data) {
+
+    const clusters = {};
+
+    data.forEach(point => {
+
+        const id = point.cluster_number;
+
+        if (!clusters[id]) {
+            clusters[id] = [];
+        }
+
+        clusters[id].push(point);
+
+    });
+
+    return clusters;
+
+}
+
+/* Dessin des enveloppes convexes */
+
+function drawClusterHulls(map, data) {
+
+    const clusters = groupByCluster(data);
+
+    Object.entries(clusters).forEach(([clusterId, points]) => {
+
+        if (points.length < 3)
+            return;
+
+        const hull = computeConvexHull(points);
+
+        if (!hull)
+            return;
+
+        const color = getClusterColor(points[0].cluster_category);
+
+        L.geoJSON(hull, {
+
+            style: {
+                color: color,
+                fillColor: color,
+                fillOpacity: 0.20,
+                weight: 2
+            },
+
+            onEachFeature(feature, layer) {
+
+                layer.bindPopup(`
+                    <b>Cluster :</b> ${clusterId}<br>
+                    <b>Catégorie :</b> ${points[0].cluster_category}<br>
+                    <b>Nombre de points :</b> ${points.length}
+                `);
+
+            }
+
+        }).addTo(map);
+
+    });
+
+}
+
+/* Calcul de l'enveloppe convexe (Turf) */
+
+function computeConvexHull(points) {
+
+    const features = points.map(point =>
+
+        turf.point([
+            Number(point.longitude),
+            Number(point.latitude)
+        ])
+
+    );
+
+    const collection = turf.featureCollection(features);
+
+    return turf.convex(collection);
+
+}

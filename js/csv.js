@@ -18,7 +18,7 @@ function parseCSV(csvText) {
     .map(h => h.trim());
 
   // Colonnes à conserver
-  const wantedHeaders = ["date", "latitude", "longitude", "Country/Sea", "Region", "DAY/NIGHT", "cluster_category", "cluster_indicators", "ndetection"];
+  const wantedHeaders = ["date", "latitude", "longitude", "Country/Sea", "Region", "DAY/NIGHT", "cluster_category", "cluster_indicators", "ndetection", "cluster_number"];
 
   return lines.slice(1).map(line => {
     const values = line.split(";");
