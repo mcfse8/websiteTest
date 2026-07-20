@@ -178,13 +178,16 @@ async function DisplayMap() {
         attribution: "&copy; OpenStreetMap"
     }).addTo(map);
 
-    const data = await loadMonitoringData();
+    const allData = await loadMonitoringData();
+
+    data = allData.filter((allData) => {
+      return allData.date=='2026-02-20';
+    });
 
     // Couleur associée à chaque cluster
     const clusterColors = {
         "fire": "#e41a1c",
         "others": "#377eb8",
-        "fire_type_1": "#4daf4a",
         "volcano": "#984ea3",
         "fire_type_1": "#ff7f00",
         "voc": "#ffff33"
@@ -213,7 +216,6 @@ async function DisplayMap() {
             <b>Cluster :</b> ${point["cluster_category"]}<br>
             <b>Country :</b> ${point["Country/Sea"]}<br>
             <b>Region :</b> ${point["Region"]}<br>
-            <b>Detections :</b> ${point.ndetection}
         `);
 
     });
