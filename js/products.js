@@ -154,17 +154,17 @@ async function DisplayMap() {
         .addTo(map)
         .bindPopup("Paris");
 
-    // data.forEach(point => {
-    // L.marker([
-    //     Number(point.latitude),
-    //     Number(point.longitude)
-    // ])
-    // .addTo(map)
-    // .bindPopup(`
-    //     Date : ${point.Date}<br>
-    //     Type : ${point.type}
-    // `);
-    // });
+    data.forEach(point => {
+    L.marker([
+        Number(point.latitude),
+        Number(point.longitude)
+    ])
+    .addTo(map)
+    .bindPopup(`
+        Date : ${point.Date}<br>
+        Type : ${point.type}
+    `);
+    });
 
 }
 
