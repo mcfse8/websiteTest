@@ -34,6 +34,8 @@ async function loadMonitoringData(forceRefresh = false) {
   statusEl.textContent = "Chargement des données...";
   refreshBtn.disabled = true;
 
+  let rows=[];
+
   try {
 
     const response = await fetch(
