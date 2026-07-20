@@ -12,7 +12,7 @@
 // Chargement direct d'un fichier CSV
 // ------------------------------------------------------------------
 
-const CSV_FILE = "./data.csv";
+const CSV_FILE = "../data.csv";
 
 let monitoringDataLoaded = false;
 
