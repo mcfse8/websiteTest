@@ -132,10 +132,13 @@ function renderDataTable(rows) {
 // ------------------------------------------------------------------
 
 window.addEventListener("DOMContentLoaded", () => {
+  console.log("Appel de DisplayMap()");
     DisplayMap();
 });
 
 async function DisplayMap() {
+
+    consol.log('Création de la map');
 
     const map = L.map("map").setView([46.5, 2.5], 6);
 
@@ -149,17 +152,17 @@ async function DisplayMap() {
         .addTo(map)
         .bindPopup("Paris");
 
-    data.forEach(point => {
-    L.marker([
-        Number(point.latitude),
-        Number(point.longitude)
-    ])
-    .addTo(map)
-    .bindPopup(`
-        Date : ${point.Date}<br>
-        Type : ${point.type}
-    `);
-    });
+    // data.forEach(point => {
+    // L.marker([
+    //     Number(point.latitude),
+    //     Number(point.longitude)
+    // ])
+    // .addTo(map)
+    // .bindPopup(`
+    //     Date : ${point.Date}<br>
+    //     Type : ${point.type}
+    // `);
+    // });
 
 }
 
