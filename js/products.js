@@ -143,6 +143,8 @@ function DisplayMap() {
         .addTo(map)
         .bindPopup("Paris");
 
+    data = loadMonitoringData();
+
     data.forEach(point => {
     L.marker([
         Number(point.latitude),
