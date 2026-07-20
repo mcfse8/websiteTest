@@ -138,7 +138,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function DisplayMap() {
 
-    consol.log('Création de la map');
+    console.log('Création de la map');
 
     const map = L.map("map").setView([46.5, 2.5], 6);
 
