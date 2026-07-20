@@ -207,7 +207,7 @@ function drawPoints(map, data) {
                 Number(point.longitude)
             ],
             {
-                radius: 1,
+                radius: 3,
                 color,
                 fillColor: color,
                 fillOpacity: 0.8,
