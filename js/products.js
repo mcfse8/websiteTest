@@ -82,7 +82,7 @@ async function loadMonitoringData(forceRefresh = false) {
 
   }
 
-  return rows
+  return rows;
 }
 
 
