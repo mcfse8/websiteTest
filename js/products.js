@@ -81,6 +81,8 @@ async function loadMonitoringData(forceRefresh = false) {
     refreshBtn.disabled = false;
 
   }
+
+  return rows
 }
 
 
@@ -131,9 +133,11 @@ window.addEventListener("DOMContentLoaded", () => {
     DisplayMap();
 });
 
-function DisplayMap() {
+async function DisplayMap() {
 
     const map = L.map("map").setView([46.5, 2.5], 6);
+
+    const data = await loadMonitoringData();
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap"
@@ -142,8 +146,6 @@ function DisplayMap() {
     L.marker([48.8566, 2.3522])
         .addTo(map)
         .bindPopup("Paris");
-
-    data = loadMonitoringData();
 
     data.forEach(point => {
     L.marker([
