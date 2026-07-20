@@ -122,3 +122,22 @@ function renderDataTable(rows) {
       </tr>
   `).join("");
 }
+
+// ------------------------------------------------------------------
+// Affichage map
+// ------------------------------------------------------------------
+
+function DisplayMap(){
+
+  const map = L.map('map').setView([46.5, 2.5], 6);
+
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+
+  L.marker([48.8566, 2.3522])
+      .addTo(map)
+      .bindPopup("Paris");
+
+}
+

@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 
     <!-- CSS -->
 
@@ -69,7 +70,7 @@
         <article class="journal-article">
 
         <div class="article-header">
-            <h1>Présentation du cas : Éruption de l'Etna en décembre 2025</h1>
+            <h1>Cartographie des données</h1>
             <p class="article-intro">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
             Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
@@ -82,6 +83,12 @@
             <strong>Figure :</strong> blablabla blabla blablablabla blabla bla blablabla, blabla
             </figcaption>
         </figure> -->
+
+        <div id="map" style="height:600px"></div>
+
+        <script>
+            DisplayMap();
+        </script>
 
         <div class="text-spascia">
             <p>
@@ -106,7 +113,7 @@
         <h2>Données de monitoring</h2>
         <div class="data-table-meta">
             <span class="data-table-status" id="data-table-status">Chargement des données…</span>
-            <button class="btn-refresh" id="data-table-refresh-btn" onclick="loadMonitoringData(true)">
+            <button class="btn-refresh" id="data-table-refresh-btn" onclick="loadMonitoringData(true)"> <!-- /!\ charger par défaut et pas juste au clic /!\ -->
             Actualiser
             </button>
         </div>
@@ -151,6 +158,8 @@
 <script src="../js/csv.js"></script>
 <script src="../js/pagination.js"></script>
 <script src="../js/main.js"></script>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 </body>
 
