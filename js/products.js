@@ -312,7 +312,16 @@ function drawClusterHulls(hullLayer, data) {
             return;
 
         // const hull = computeConvexHull(points);
-        const hull = computeHull(points);
+        let hull = computeHull(points);
+
+
+        hull = turf.buffer(hull, 5, {
+            units: "kilometers"
+        });
+
+        hull = turf.polygonSmooth(hull, {
+            iterations: 2
+        });
 
         if (!hull)
             return;
