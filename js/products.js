@@ -320,7 +320,7 @@ function drawClusterHulls(hullLayer, data) {
         });
 
         hull = turf.polygonSmooth(hull, {
-            iterations: 2
+            iterations: 4
         });
 
         if (!hull)
