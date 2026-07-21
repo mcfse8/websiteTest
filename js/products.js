@@ -315,7 +315,7 @@ function drawClusterHulls(hullLayer, data) {
                 color: color,
                 fillColor: color,
                 fillOpacity: 0.20,
-                weight: 1
+                weight: 0.1
             },
 
             onEachFeature(feature, layer) {
