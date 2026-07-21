@@ -160,12 +160,21 @@ let currentPeriod = "ALL";
 
 function createMap() {
 
-    const map = L.map("map").setView([46.5, 2.5], 6);
+    const bounds = L.latLngBounds(
+        [-85, -180],
+        [85, 180]
+    );
+
+    const map = L.map("map", {
+        maxBounds: bounds,
+        maxBoundsViscosity: 1.0
+    }).setView([46.5, 2.5], 6);
 
     L.tileLayer(
         "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         {
-            attribution: "&copy; OpenStreetMap"
+            attribution: "&copy; OpenStreetMap",
+            noWrap: true
         }
     ).addTo(map);
 
@@ -302,7 +311,7 @@ function drawClusterHulls(hullLayer, data) {
         if (points.length < 3)
             return;
 
-        const hull = computeConvexHull(points);
+        const hull = computeHull(points);
 
         if (!hull)
             return;
@@ -337,21 +346,25 @@ function drawClusterHulls(hullLayer, data) {
 
 /* Calcul de l'enveloppe convexe (Turf) */
 
-function computeConvexHull(points) {
+function computeHull(points) {
 
     const features = points.map(point =>
-
         turf.point([
             Number(point.longitude),
             Number(point.latitude)
         ])
-
     );
 
     const collection = turf.featureCollection(features);
 
-    return turf.convex(collection);
-
+    return (
+        turf.concave(collection, {
+            maxEdge: 50,
+            units: "kilometers"
+        })
+        ||
+        turf.convex(collection)
+    );
 }
 
 /* Bouton Day Night */ 
