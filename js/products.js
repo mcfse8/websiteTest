@@ -311,6 +311,7 @@ function drawClusterHulls(hullLayer, data) {
         if (points.length < 3)
             return;
 
+        // const hull = computeConvexHull(points);
         const hull = computeHull(points);
 
         if (!hull)
@@ -346,6 +347,23 @@ function drawClusterHulls(hullLayer, data) {
 
 /* Calcul de l'enveloppe convexe (Turf) */
 
+// function computeConvexHull(points) {
+
+//     const features = points.map(point =>
+
+//         turf.point([
+//             Number(point.longitude),
+//             Number(point.latitude)
+//         ])
+
+//     );
+
+//     const collection = turf.featureCollection(features);
+
+//     return turf.convex(collection);
+
+// }
+
 function computeHull(points) {
 
     const features = points.map(point =>
@@ -358,10 +376,7 @@ function computeHull(points) {
     const collection = turf.featureCollection(features);
 
     return (
-        turf.concave(collection, {
-            maxEdge: 50,
-            units: "kilometers"
-        })
+        turf.concave(collection)
         ||
         turf.convex(collection)
     );
