@@ -376,7 +376,7 @@ function computeHull(points) {
     const collection = turf.featureCollection(features);
 
     return (
-        turf.concave(collection)
+        turf.concave(collection, {maxEdge: 500, units: "kilometers"})
         ||
         turf.convex(collection)
     );
