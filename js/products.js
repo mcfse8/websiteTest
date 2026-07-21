@@ -214,11 +214,11 @@ function refreshMap() {
 
     const data = filterData(allData);
 
-    drawPoints(pointLayer, data);
-
     drawClusterHulls(hullLayer, data);
+    drawPoints(pointLayer, data);  
 
 }
+
 /* Couleur d'un cluster */
 
 function getClusterColor(clusterCategory) {
@@ -315,7 +315,7 @@ function drawClusterHulls(hullLayer, data) {
                 color: color,
                 fillColor: color,
                 fillOpacity: 0.20,
-                weight: 2
+                weight: 1
             },
 
             onEachFeature(feature, layer) {
